@@ -17,9 +17,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.recipeapp.RecipeUI;
 import com.recipeapp.datahandler.DataHandler;
-import com.recipeapp.model.Ingredient;
-import com.recipeapp.model.Recipe;
+import com.recipeapp.model1.Ingredient;
+import com.recipeapp.model1.Recipe;
 
 @ExtendWith(MockitoExtension.class)
 public class RecipeUITest {

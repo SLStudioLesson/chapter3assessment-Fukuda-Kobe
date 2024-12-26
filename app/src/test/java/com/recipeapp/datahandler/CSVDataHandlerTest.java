@@ -13,8 +13,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.recipeapp.model.Ingredient;
-import com.recipeapp.model.Recipe;
+import com.recipeapp.model1.Ingredient;
+import com.recipeapp.model1.Recipe;
 
 class CSVDataHandlerTest {
 
