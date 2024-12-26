@@ -1,7 +1,9 @@
 package com.recipeapp.datahandler;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -54,10 +56,31 @@ public class CSVDataHandler implements DataHandler {
         return recipes;
     }
 
+    // 設問6 writeDataメソッドの実行
     @Override
-    public void writeData(Recipe recipe) {
-
+    public void writeData(Recipe recipe) { //recipeインスタンスは、getNameで料理名を取得できる。getIngredoentsでArrayListのingredientsを取得できる
+        String newRecipe;
+        String newIngredients = "";
+        // 料理名の取得
+        String name = recipe.getName();
+        // 材料のArrayListの取得
+        ArrayList<Ingredient> ingredients = recipe.getIngredients();
+        for (int i = 0; i < ingredients.size(); i++) {
+            newIngredients += ", " + ingredients.get(i).getName();
+        }
+        newRecipe = name + newIngredients;
+        // 新規のファイル作成と、書き込み
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(newRecipe); // inputをfileに追加する
+            writer.newLine(); // 一行追加する
+            System.out.println("Recipe added successfully.");
+        } catch (IOException e) {
+            // [修正]指示通りの実装になっていない
+            // e.printStackTrace();
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
     }
+
     @Override
     public ArrayList<Recipe> searchData() {
         return null;

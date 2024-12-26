@@ -39,6 +39,7 @@ public class RecipeUI {
                         displayRecipes();
                         break;
                     case "2":
+                        addNewRecipe();
                         break;
                     case "3":
                         break;
@@ -55,11 +56,11 @@ public class RecipeUI {
         }
     }
 
-    //設問5 displayRecipesメソッドの実装
+    // 設問5 displayRecipesメソッドの実装
     private void displayRecipes() {
         ArrayList<Recipe> recipes = new ArrayList<>(dataHandler.readData()); // 選択されたファイル形式のArrayList<Recipe> recipesを受け取る
         ArrayList<Ingredient> ingredients = new ArrayList<>();
-        // recipesの中身が何もないとき、メッセージを出力して処理を終了する
+        // recipesの要素が空のとき、メッセージを出力して処理を終了する
         if (recipes.size() == 0) {
             System.out.println("No recipes available.");
             return;
@@ -68,17 +69,45 @@ public class RecipeUI {
         System.out.println("Recipes:");
         for (Recipe recipe : recipes) { // recipesに格納されている各インスタンスに対して、下記の処理を実行する
             System.out.println("-----------------------------------");
-            System.out.println("Recipe Name: " + recipe.getName());
+            System.out.println("Recipe Name: " + recipe.getName()); // recipeインスタンスのgetNameメソッドを利用
             System.out.print("Main Ingredients: ");
-            ingredients = recipe.getIngredients();
-            for (Ingredient ingredient : ingredients) {
-                    System.out.print(ingredient.getName() + ","); // Ingredientsのjつ目の要素のインスタンスに対して、getName()を実行
-
+            ingredients = recipe.getIngredients(); // ArrayList<Ingredient> ingredientsを、recipeインスタンスのgetIngredientsメソッドで受け取る
+            for (int i = 0; i <= ingredients.size() - 1; i++) { // Ingredientsの各要素に対して、下記の処理を実行する
+                // ArayList<Ingreditent> ingredientsに対してインデックスiの要素のingredientインスタンスを取得し、ingredientインスタンスのgetNameメソッドを実行する
+                System.out.print(ingredients.get(i).getName());
+                // 材料名ごとにカンマと空白を入れるが、最後にはカンマは不要
+                    if (i < ingredients.size() - 1) { // 材料名ごとに、カンマと空白を入れる
+                        System.out.print(",");
+                    }
                 }
             System.out.println();
             }
+            System.out.println("-----------------------------------"); // 終わるときに----で閉じる
         }
-        // recipesの中身は、Recipe型のインスタンスが格納されている
-        // 料理名:String nameで格納。具材はArrayList<Ingredient> ingredientsという名前で格納されている
+
+        // 設問6 addNewRecipeメソッドの実装
+        private void addNewRecipe() throws IOException {
+            ArrayList<Ingredient> ingredients = new ArrayList<>();
+            String name;
+            // 料理名の受け取り
+            System.out.println("Adding a new recipe.");
+            System.out.print("Enter recipe name: ");
+            name = reader.readLine();
+            // 材料の受け取り
+            System.out.println("Enter ingredients (type 'done' when finished):");
+            boolean done = true;
+            while (done) {
+                System.out.print("Ingredient: ");
+                String line = reader.readLine();
+                if (line.equals("done")) {
+                    done = false;
+                } else {
+                    Ingredient ing = new Ingredient(line);
+                    ingredients.add(ing);
+                }
+            }
+            Recipe recipe = new Recipe(name, ingredients);
+            dataHandler.writeData(recipe);
+        }
 }
 
